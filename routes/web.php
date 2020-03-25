@@ -17,10 +17,14 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
-    $router->get('/posts', 'PostsController@index');
-    $router->post('/posts', 'PostsController@store');
-    $router->get('/posts/{id}', 'PostsController@show');
-    $router->put('/posts/{id}', 'PostsController@update');
-    $router->delete('/posts/{id}', 'PostsController@destroy');
+	$router->group(['middleware' => 'jwt_verify'], function () use ($router){
+		$router->get('/posts', 'PostsController@index');
+	    $router->post('/posts', 'PostsController@store');
+	    $router->get('/posts/{id}', 'PostsController@show');
+	    $router->put('/posts/{id}', 'PostsController@update');
+	    $router->delete('/posts/{id}', 'PostsController@destroy');
+	});
+
+    $router->post('/login', 'LoginController@submit');
 
 });

@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\User;
+use App\Post;
 use Faker\Generator as Faker;
 
 /*
@@ -18,7 +19,16 @@ use Faker\Generator as Faker;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+        'name'     => $faker->name,
+        'email'    => $faker->unique()->email,
+        'password' => password_hash('12345', PASSWORD_DEFAULT)
+    ];
+});
+
+
+$factory->define(Post::class, function (Faker $faker) {
+    return [
+        'title'     => $faker->sentence(5, true),
+        'content'   => $faker->paragraph(3, true) 
     ];
 });
